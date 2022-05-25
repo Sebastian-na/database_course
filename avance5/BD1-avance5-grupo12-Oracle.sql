@@ -180,7 +180,7 @@ CREATE VIEW V_Products_stocks AS SELECT * FROM Products_stocks;
 CREATE VIEW V_Sales_products AS SELECT * FROM Sales_products;
 
 /*Insert data in manager table*/
-INSERT INTO user.V_V_Manager(name, last_name) VALUES ('Juan', 'Perez');
+INSERT INTO user.V_Manager(name, last_name) VALUES ('Juan', 'Perez');
 
 /*Insert data in submanager table*/
 INSERT INTO user.V_Submanagers(name, last_name, boss_id) VALUES ('Pedro', 'Perez', 1);
@@ -429,8 +429,46 @@ INSERT INTO user.V_Sales_products(sale_id, product_id, quantity) values (7, 7, 3
 INSERT INTO user.V_Sales_products(sale_id, product_id, quantity) values (7, 8, 15);
 
 
+/*-------------------------------------------------------------------------------*/
+/* Business rules */
 
+/* Duplicate salespeople id yields error */
+INSERT INTO user.V_Salespeople (id, name, last_name, phone, salary, commission, department_id) values (2, 'Fianna', 'MacAughtrie', '871-586-9003', 1175114, null, 10);
 
+/* Insert a product with a provider that does not exist */
+INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Chai', 'Instant coffee', 18.00, 19.00, 'Beverages', 100);
+
+/*Useful functions*/
+CREATE OR REPLACE FUNCTION GET_SALES
+RETURN NUMBER IS 
+	total NUMBER := 0;
+BEGIN
+  SELECT SUM(p.SALE_PRICE * vsp.QUANTITY) INTO total FROM user.V_SALES_PRODUCTS vsp 
+  INNER JOIN user.PRODUCTS p ON vsp.PRODUCT_ID = p.ID;
+ RETURN total;
+END;
+
+CREATE OR REPLACE FUNCTION GET_SALES_PROFIT
+RETURN NUMBER IS 
+	income NUMBER := 0;
+    costs NUMBER := 0;
+BEGIN
+  SELECT SUM(p.SALE_PRICE * vsp.QUANTITY) INTO income FROM user.V_SALES_PRODUCTS vsp 
+  INNER JOIN user.PRODUCTS p ON vsp.PRODUCT_ID = p.ID;
+  
+  SELECT SUM(p.PURCHASE_PRICE * vsp.QUANTITY) INTO costs FROM user.V_SALES_PRODUCTS vsp 
+  INNER JOIN user.PRODUCTS p ON vsp.PRODUCT_ID = p.ID;
+ 
+ RETURN income - costs;
+END;
+
+CREATE OR REPLACE FUNCTION GET_TOTAL_SALESPEOPLE
+RETURN NUMBER IS 
+	total NUMBER := 0;
+BEGIN
+ SELECT COUNT(id) INTO total FROM user.SALESPEOPLE;
+ RETURN total;
+END;
 
 /*
 DELETE TABLES
@@ -451,6 +489,33 @@ DROP TABLE DEPARTMENTDIRECTORS;
 DROP TABLE BRANCHMANAGERS; 
 DROP TABLE SUBMANAGERS;
 DROP TABLE MANAGER;
+
+/*
+DELETE VIEWS
+*/
+DROP VIEW V_SALES_PRODUCTS;
+DROP VIEW V_PRODUCTS_STOCKS;
+DROP VIEW V_PURCHASES_PRODUCTS;
+DROP VIEW V_PRODUCTS;
+DROP VIEW V_PROVIDERS;
+DROP VIEW V_PURCHASES;
+DROP VIEW V_SALES;
+DROP VIEW V_MEETINGS;
+DROP VIEW V_CUSTOMERS;
+DROP VIEW V_SALESPEOPLE;
+DROP VIEW V_DEPARTMENTS;
+DROP VIEW V_BRANCHES;
+DROP VIEW V_DEPARTMENTDIRECTORS; 
+DROP VIEW V_BRANCHMANAGERS; 
+DROP VIEW V_SUBMANAGERS;
+DROP VIEW V_MANAGER;
+
+/*
+DROP FUNCTIONS
+*/
+DROP FUNCTION GET_SALES;
+DROP FUNCTION GET_SALES_PROFIT;
+DROP FUNCTION GET_TOTAL_SALESPEOPLE;
 purge recyclebin;
 
 
