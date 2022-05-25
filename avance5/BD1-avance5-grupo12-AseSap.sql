@@ -469,8 +469,8 @@ AS
 BEGIN
   DECLARE @sales INT
   SELECT @sales = SUM(p.sale_price * vsp.quantity) 
-  FROM scastanedag.V_Sales_products vsp 
-  INNER JOIN scastanedag.V_Products p ON vsp.product_id = p.id
+  FROM user.V_Sales_products vsp 
+  INNER JOIN user.V_Products p ON vsp.product_id = p.id
   RETURN @sales
 END
 
