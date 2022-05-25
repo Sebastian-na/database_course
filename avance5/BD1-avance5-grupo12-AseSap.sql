@@ -1,21 +1,21 @@
 -- -----------------------------------------------------------------------------
--- BD1-avance5-grupo12-MSQL.sql
+-- BD1-avance5-grupo12-AseSap.sql
 -- Objetivo: Practicar la creación de funciones
 -- Autores:  Breyner Ciro Otero, Juan Vahos Duque, Sebastián Castañeda García, Omar Nicolas Guerrero, Chaparro David Mackenzie
 -- Fecha:    6/25/2022
--- Ambiente: SQL Server
+-- Ambiente: Ase Sap
 -- -----------------------------------------------------------------------------
 
 /* Database creation */
 CREATE TABLE Manager (
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 name VARCHAR(100) NOT NULL,
 last_name VARCHAR(100) NOT NULL,
 CONSTRAINT pk_manager PRIMARY KEY (id)
 );
 
 CREATE TABLE Submanagers (
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 name VARCHAR(100) NOT NULL,
 last_name VARCHAR(100) NOT NULL,
 boss_id INT NOT NULL,
@@ -24,7 +24,7 @@ CONSTRAINT fk_submanagers_manager FOREIGN KEY (boss_id) REFERENCES Manager(id)
 );
 
 CREATE TABLE Branchmanagers (
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 name VARCHAR(100) NOT NULL,
 last_name VARCHAR(100) NOT NULL,
 boss_id INT NOT NULL,
@@ -33,7 +33,7 @@ FOREIGN KEY (boss_id) REFERENCES Submanagers(id)
 );
 
 CREATE TABLE Departmentdirectors (
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 name VARCHAR(100) NOT NULL,
 last_name VARCHAR(100) NOT NULL,
 boss_id INT NOT NULL,
@@ -42,7 +42,7 @@ FOREIGN KEY (boss_id) REFERENCES Branchmanagers(id)
 );
 
 CREATE TABLE Branches(
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 city VARCHAR(100) NOT NULL,
 phone VARCHAR(100) NOT NULL,
 branch_manager_id INT NOT NULL,
@@ -51,7 +51,7 @@ FOREIGN KEY (branch_manager_id) REFERENCES Branchmanagers(id)
 );
 
 CREATE TABLE Departments(
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 branch_id INT NOT NULL,
 department_director_id INT NOT NULL,
 name VARCHAR(100) NOT NULL,
@@ -61,15 +61,15 @@ FOREIGN KEY (department_director_id) REFERENCES Departmentdirectors(id)
 );
 
 CREATE TABLE Salespeople(
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 name VARCHAR(100) NOT NULL,
 last_name VARCHAR(100) NOT NULL,
 phone VARCHAR(100) NOT NULL,
 salary INT NOT NULL,
-commission INT DEFAULT 0,
-hire_date DATETIME NOT NULL DEFAULT GETDATE(),
-promotion_date DATETIME NOT NULL DEFAULT GETDATE(),
-termination_date DATETIME,
+commission INT DEFAULT 0 NULL,
+hire_date date DEFAULT getdate() NOT NULL,
+promotion_date date DEFAULT getdate() NOT NULL,
+termination_date date NULL,
 active BIT DEFAULT 1 NOT NULL,
 department_id INT NOT NULL,
 PRIMARY KEY (id),
@@ -77,7 +77,7 @@ FOREIGN KEY (department_id) REFERENCES Departments(id)
 );
 
 CREATE TABLE Customers(
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 name VARCHAR(100) NOT NULL,
 nit INT UNIQUE NOT NULL,
 address VARCHAR(100) NOT NULL,
@@ -91,32 +91,32 @@ FOREIGN KEY (salesperson_id) REFERENCES Salespeople(id)
 );
 
 CREATE TABLE Meetings(
-id INT NOT NULL IDENTITY(1, 1),
-meeting_date DATETIME NOT NULL,
+id INT IDENTITY NOT NULL,
+meeting_date date NOT NULL,
 customer_id INT NOT NULL,
 PRIMARY KEY (id),
 FOREIGN KEY (customer_id) REFERENCES Customers(id)
 );
 
 CREATE TABLE Sales(
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 customer_id INT NOT NULL,
-sale_date DATETIME NOT NULL DEFAULT GETDATE(),
+sale_date date DEFAULT getdate() NOT NULL,
 PRIMARY KEY (id),
 FOREIGN KEY (customer_id) REFERENCES Customers(id)
 );
 
 CREATE TABLE Purchases(
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 branch_id INT NOT NULL,
-purchase_date DATETIME NOT NULL DEFAULT GETDATE(),
-arrive_date DATETIME,
+purchase_date date DEFAULT getdate() NOT NULL,
+arrive_date date NULL,
 PRIMARY KEY (id),
 FOREIGN KEY (branch_id) REFERENCES Branches(id)
 );
 
 CREATE TABLE Providers(
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 name VARCHAR(100) NOT NULL,
 nit INT NOT NULL,
 address VARCHAR(100) NOT NULL,
@@ -127,7 +127,7 @@ PRIMARY KEY (id)
 );
 
 CREATE TABLE Products(
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 name VARCHAR(100) NOT NULL,
 description varchar(200) NOT NULL,
 purchase_price INT NOT NULL,
@@ -139,7 +139,7 @@ FOREIGN KEY (provider_id) REFERENCES Providers(id)
 );
 
 CREATE TABLE Purchases_products(
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 purchase_id INT NOT NULL,
 product_id INT NOT NULL,
 quantity INT NOT NULL,
@@ -149,7 +149,7 @@ FOREIGN KEY (product_id) REFERENCES Products(id)
 );
 
 CREATE TABLE Products_stocks(
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 product_id INT NOT NULL,
 stock_id INT NOT NULL,
 quantity INT NOT NULL,
@@ -159,7 +159,7 @@ FOREIGN KEY (stock_id) REFERENCES Branches(id)
 );
 
 CREATE TABLE Sales_products(
-id INT NOT NULL IDENTITY(1, 1),
+id INT IDENTITY NOT NULL,
 sale_id INT NOT NULL,
 product_id INT NOT NULL,
 quantity INT NOT NULL,
@@ -383,12 +383,13 @@ INSERT INTO user.V_Products(name, description, purchase_price, sale_price, marke
 INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Chang', 'Bubble tea', 20.00, 22.00, 'Beverages', 2);
 INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Aniseed Syrup', 'Aniseed syrup', 10.00, 12.00, 'Condiments', 3);
 INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Chef Anton''s Cajun Seasoning', 'Chef Anton''s Cajun Seasoning', 22.00, 22.00, 'Condiments', 3);
-INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Chef Anton''s Gumbo Mix', 'Chef Anton''s Gumbo Mix', 21.35, 23.25, 'Condiments', 3);
+INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Chef Antos Gumbo Mix', 'Chef Anton''s Gumbo Mix', 21.35, 23.25, 'Condiments', 3);
 INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Grandma''s Boysenberry Spread', 'Grandma''s Boysenberry Spread', 25.00, 25.00, 'Condiments', 3);
 INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Northwoods Cranberry Sauce', 'Northwoods Cranberry Sauce', 40.00, 40.00, 'Condiments', 3);
 INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Mishi Kobe Niku', 'Mishi Kobe Niku', 97.00, 97.00, 'Meat/Poultry', 1);
 INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Ikura', 'Ikura', 31.00, 31.00, 'Seafood', 1);
 INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Queso Cabrales', 'Queso Cabrales', 21.00, 21.00, 'Dairy Products', 2);
+INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Queso Cebolla', 'Queso Cebolla', 21.00, 21.00, 'Dairy Products', 2);
 
 /*Insert data in Purchases_products table*/
 INSERT INTO user.V_Purchases_products(purchase_id, product_id, quantity) values (1, 1, 50);
@@ -462,84 +463,87 @@ INSERT INTO user.V_Salespeople (id, name, last_name, phone, salary, commission, 
 INSERT INTO user.V_Products(name, description, purchase_price, sale_price, market_division, provider_id) values ('Chai', 'Instant coffee', 18.00, 19.00, 'Beverages', 100);
 
 /*Useful functions*/
-CREATE FUNCTION GET_SALES()
+CREATE FUNCTION GET_SALES
 RETURNS int
 AS
 BEGIN
-  DECLARE @sales INT;
-  SELECT @sales = SUM(p.SALE_PRICE * vsp.QUANTITY) 
-  FROM user.V_SALES_PRODUCTS vsp 
-  INNER JOIN user.PRODUCTS p ON vsp.PRODUCT_ID = p.ID;
-  RETURN @sales;
-END;
+  DECLARE @sales INT
+  SELECT @sales = SUM(p.sale_price * vsp.quantity) 
+  FROM scastanedag.V_Sales_products vsp 
+  INNER JOIN scastanedag.V_Products p ON vsp.product_id = p.id
+  RETURN @sales
+END
 
-CREATE FUNCTION GET_SALES_PROFIT()
+CREATE FUNCTION GET_SALES_PROFIT
 RETURNS int
 AS
 BEGIN
-  DECLARE @income INT; 
-  SELECT @income = SUM(p.SALE_PRICE * vsp.QUANTITY)
-  FROM user.V_SALES_PRODUCTS vsp 
-  INNER JOIN user.PRODUCTS p ON vsp.PRODUCT_ID = p.ID;
+  DECLARE @income INT
+  SELECT @income = SUM(p.sale_price * vsp.quantity)
+  FROM user.V_Sales_products vsp 
+  INNER JOIN user.V_Products p ON vsp.product_id = p.id
   
-  DECLARE @costs INT;
-  SELECT @costs = SUM(p.PURCHASE_PRICE * vsp.QUANTITY)
-  FROM user.V_SALES_PRODUCTS vsp 
-  INNER JOIN user.PRODUCTS p ON vsp.PRODUCT_ID = p.ID;
+  DECLARE @costs INT
+  SELECT @costs = SUM(p.purchase_price * vsp.quantity)
+  FROM user.V_Sales_products vsp 
+  INNER JOIN user.V_Products p ON vsp.product_id = p.id
  
- RETURN @income - @costs;
-END;
+ RETURN @income - @costs
+END
 
-CREATE FUNCTION GET_TOTAL_SALESPEOPLE()
+CREATE FUNCTION GET_TOTAL_SALESPEOPLE
 RETURNS INT
 AS
 BEGIN
- DECLARE @total INT;
- SELECT @total = COUNT(id) FROM user.SALESPEOPLE;
- RETURN @total;
-END;
+ DECLARE @total INT
+ SELECT @total = COUNT(id) FROM user.V_Salespeople
+ RETURN @total
+END
 
 /*
 DELETE TABLES
 */
-DROP TABLE SALES_PRODUCTS;
-DROP TABLE PRODUCTS_STOCKS;
-DROP TABLE PURCHASES_PRODUCTS;
-DROP TABLE PRODUCTS;
-DROP TABLE PROVIDERS;
-DROP TABLE PURCHASES;
-DROP TABLE SALES;
-DROP TABLE MEETINGS;
-DROP TABLE CUSTOMERS;
-DROP TABLE SALESPEOPLE;
-DROP TABLE DEPARTMENTS;
-DROP TABLE BRANCHES;
-DROP TABLE DEPARTMENTDIRECTORS; 
-DROP TABLE BRANCHMANAGERS; 
-DROP TABLE SUBMANAGERS;
-DROP TABLE MANAGER;
+DROP TABLE Sales_products;
+DROP TABLE Products_stocks;
+DROP TABLE Purchases_products;
+DROP TABLE Products;
+DROP TABLE Providers;
+DROP TABLE Purchases;
+DROP TABLE Sales;
+DROP TABLE Meetings;
+DROP TABLE Customers;
+DROP TABLE Salespeople;
+DROP TABLE Departments;
+DROP TABLE Branches;
+DROP TABLE Departmentdirectors;
+DROP TABLE Branchmanagers;
+DROP TABLE Submanagers;
+DROP TABLE Manager;
+
 
 /*
 DELETE VIEWS
 */
-DROP VIEW V_SALES_PRODUCTS;
-DROP VIEW V_PRODUCTS_STOCKS;
-DROP VIEW V_PURCHASES_PRODUCTS;
-DROP VIEW V_PRODUCTS;
-DROP VIEW V_PROVIDERS;
-DROP VIEW V_PURCHASES;
-DROP VIEW V_SALES;
-DROP VIEW V_MEETINGS;
-DROP VIEW V_CUSTOMERS;
-DROP VIEW V_SALESPEOPLE;
-DROP VIEW V_DEPARTMENTS;
-DROP VIEW V_BRANCHES;
-DROP VIEW V_DEPARTMENTDIRECTORS; 
-DROP VIEW V_BRANCHMANAGERS; 
-DROP VIEW V_SUBMANAGERS;
-DROP VIEW V_MANAGER;
+DROP VIEW V_Sales_products;
+DROP VIEW V_Products_stocks;
+DROP VIEW V_Purchases_products;
+DROP VIEW V_Products;
+DROP VIEW V_Providers;
+DROP VIEW V_Purchases;
+DROP VIEW V_Sales;
+DROP VIEW V_Meetings;
+DROP VIEW V_Customers;
+DROP VIEW V_Salespeople;
+DROP VIEW V_Departments;
+DROP VIEW V_Branches;
+DROP VIEW V_Departmentdirectors;
+DROP VIEW V_Branchmanagers;
+DROP VIEW V_Submanagers;
+DROP VIEW V_Manager;
 
-/*DELETE FUNCTIONS*/
+/*
+DELETE FUNCTIONS
+*/
 DROP FUNCTION GET_SALES;
 DROP FUNCTION GET_SALES_PROFIT;
 DROP FUNCTION GET_TOTAL_SALESPEOPLE;
