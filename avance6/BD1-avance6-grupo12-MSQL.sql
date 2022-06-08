@@ -168,6 +168,449 @@ FOREIGN KEY (sale_id) REFERENCES Sales(id),
 FOREIGN KEY (product_id) REFERENCES Products(id)
 );
 
+CREATE TABLE Log(
+id INT NOT NULL IDENTITY(1, 1),
+row_id INT NULL,
+table_name VARCHAR(100) NOT NULL,
+username VARCHAR(100) NOT NULL,
+date DATETIME NOT NULL DEFAULT GETDATE(),
+operation VARCHAR(100) NOT NULL,
+PRIMARY KEY (id)
+);
+
+CREATE TRIGGER Manager_Log 
+ON Manager 
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Manager', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Submanagers_Log
+ON Submanagers
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Submanagers', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Branchmanagers_Log
+ON Branchmanagers
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Branchmanagers', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Departmentdirectors_Log
+ON Departmentdirectors
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Departmentdirectors', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Branches_Log
+ON Branches
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Branches', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Departments_Log
+ON Departments
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Departments', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Salespeople_Log
+ON Salespeople
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Salespeople', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Customers_Log
+ON Customers
+FOR INSERT, UPDATE, DELETE
+
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Customers', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Meetings_Log
+ON Meetings
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Meetings', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Sales_Log
+ON Sales
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Sales', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Purchases_Log
+ON Purchases
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Purchases', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Providers_Log
+ON Providers
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Providers', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Products_Log
+ON Products
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Products', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Purchases_products_Log
+ON Purchases_products
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Purchases_products', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Products_stocks_Log
+ON Products_stocks
+FOR INSERT, UPDATE, DELETE
+AS 
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Products_stocks', SUSER_NAME(), GETDATE(), @operation)
+END;
+
+CREATE TRIGGER Sales_products_Log
+ON Sales_products
+FOR INSERT, UPDATE, DELETE
+AS
+BEGIN
+	DECLARE @operation CHAR(6)
+	DECLARE @id INT
+		SET @operation = CASE
+				WHEN EXISTS(SELECT * FROM inserted) AND EXISTS(SELECT * FROM deleted)
+					THEN 'Update'
+				WHEN EXISTS(SELECT * FROM inserted)
+					THEN 'Insert'
+				WHEN EXISTS(SELECT * FROM deleted)
+					THEN 'Delete'
+				ELSE NULL
+		END
+	IF @operation = 'Delete' OR @operation = 'Update'
+	BEGIN
+	    SET @id = (SELECT id from DELETED)
+	END
+  ELSE
+  BEGIN
+	    SET @id = (SELECT id from INSERTED)
+	END
+  INSERT INTO Log VALUES (@id, 'Sales_products', SUSER_NAME(), GETDATE(), @operation)
+END;
+
 /*Create views for each table*/
 CREATE VIEW V_Manager AS SELECT * FROM Manager;
 CREATE VIEW V_Submanagers AS SELECT * FROM Submanagers;
@@ -543,3 +986,23 @@ DROP VIEW V_MANAGER;
 DROP FUNCTION GET_SALES;
 DROP FUNCTION GET_SALES_PROFIT;
 DROP FUNCTION GET_TOTAL_SALESPEOPLE;
+
+/*DELETE TRIGGERS*/
+DROP TRIGGER Manager_Log ON MANAGER;
+DROP TRIGGER Submanagers_Log ON SUBMANAGERS;
+DROP TRIGGER Branchmanagers_Log ON BRANCHMANAGERS;
+DROP TRIGGER Departmentdirectors_Log ON DEPARTMENTDIRECTORS;
+DROP TRIGGER Branches_Log ON BRANCHES;
+DROP TRIGGER Departments_Log ON DEPARTMENTS;
+DROP TRIGGER Salespeople_Log ON SALESPEOPLE;
+DROP TRIGGER Customers_Log ON CUSTOMERS;
+DROP TRIGGER Meetings_Log ON MEETINGS;
+DROP TRIGGER Sales_Log ON SALES;
+DROP TRIGGER Purchases_Log ON PURCHASES;
+DROP TRIGGER Products_Log ON PRODUCTS;
+DROP TRIGGER Providers_Log ON PROVIDERS;
+DROP TRIGGER Sales_products_Log ON SALES_PRODUCTS;
+DROP TRIGGER Products_stocks_Log ON PRODUCTS_STOCKS;
+DROP TRIGGER Purchases_products_Log ON PURCHASES_PRODUCTS;
+
+
