@@ -221,14 +221,16 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+    INSERT INTO Log VALUES (:NEW.ID, 'Manager', USER, SYSDATE, l_transaction);
   ELSIF UPDATING THEN
     log_action := 'Update';
+    INSERT INTO Log VALUES (:NEW.ID, 'Manager', USER, SYSDATE, l_transaction);
   ELSIF DELETING THEN
     log_action := 'Delete';
+    INSERT INTO Log VALUES (:OLD.ID, 'Manager', USER, SYSDATE, l_transaction);
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Manager', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Submanagers_Log
@@ -240,14 +242,18 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+     INSERT INTO Log VALUES (:new.ID, 'Submanagers', USER, SYSDATE, l_transaction);
   ELSIF UPDATING THEN
     log_action := 'Update';
+     INSERT INTO Log VALUES (:new.ID, 'Submanagers', USER, SYSDATE, l_transaction);
   ELSIF DELETING THEN
     log_action := 'Delete';
+    INSERT INTO Log VALUES (:old.ID, 'Submanagers', USER, SYSDATE, l_transaction);
+
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Submanagers', USER, SYSDATE, l_transaction);
+ 
 END;
 
 CREATE OR REPLACE TRIGGER Branchmanagers_Log
@@ -259,14 +265,16 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+    INSERT INTO Log VALUES (:new.ID, 'Branchmanagers', USER, SYSDATE, l_transaction);
   ELSIF UPDATING THEN
     log_action := 'Update';
+    INSERT INTO Log VALUES (:new.ID, 'Branchmanagers', USER, SYSDATE, l_transaction);
   ELSIF DELETING THEN
     log_action := 'Delete';
+    INSERT INTO Log VALUES (:OLD.ID, 'Branchmanagers', USER, SYSDATE, l_transaction);
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Branchmanagers', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Departmentdirectors_Log
@@ -278,14 +286,16 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+    INSERT INTO Log VALUES (:new.ID, 'Departmentdirectors', USER, SYSDATE, l_transaction);
   ELSIF UPDATING THEN
     log_action := 'Update';
+    INSERT INTO Log VALUES (:new.ID, 'Departmentdirectors', USER, SYSDATE, l_transaction);
   ELSIF DELETING THEN
     log_action := 'Delete';
+    INSERT INTO Log VALUES (:old.ID, 'Departmentdirectors', USER, SYSDATE, l_transaction);
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Departmentdirectors', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Branches_Log
@@ -297,14 +307,17 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+    INSERT INTO Log VALUES (:new.ID, 'Branches', USER, SYSDATE, l_transaction);
   ELSIF UPDATING THEN
     log_action := 'Update';
+    INSERT INTO Log VALUES (:new.ID, 'Branches', USER, SYSDATE, l_transaction);
   ELSIF DELETING THEN
     log_action := 'Delete';
+    INSERT INTO Log VALUES (:old.ID, 'Branches', USER, SYSDATE, l_transaction);
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Branches', USER, SYSDATE, l_transaction);
+
 END;
 
 CREATE OR REPLACE TRIGGER Departments_Log
@@ -316,14 +329,16 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+      INSERT INTO Log VALUES (:new.ID, 'Departments', USER, SYSDATE, l_transaction);
   ELSIF UPDATING THEN
     log_action := 'Update';
+      INSERT INTO Log VALUES (:new.ID, 'Departments', USER, SYSDATE, l_transaction);
   ELSIF DELETING THEN
     log_action := 'Delete';
+      INSERT INTO Log VALUES (:old.ID, 'Departments', USER, SYSDATE, l_transaction);
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Departments', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Salespeople_Log
@@ -335,14 +350,16 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+     INSERT INTO Log VALUES (:new.ID, 'Salespeople', USER, SYSDATE, l_transaction);
   ELSIF UPDATING THEN
     log_action := 'Update';
+     INSERT INTO Log VALUES (:new.ID, 'Salespeople', USER, SYSDATE, l_transaction);
   ELSIF DELETING THEN
     log_action := 'Delete';
+     INSERT INTO Log VALUES (:old.ID, 'Salespeople', USER, SYSDATE, l_transaction);
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Salespeople', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Customers_Log
@@ -354,14 +371,16 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+    INSERT INTO Log VALUES (:new.ID, 'Customers', USER, SYSDATE, l_transaction);
   ELSIF UPDATING THEN
     log_action := 'Update';
+    INSERT INTO Log VALUES (:new.ID, 'Customers', USER, SYSDATE, l_transaction);
   ELSIF DELETING THEN
     log_action := 'Delete';
+    INSERT INTO Log VALUES (:old.ID, 'Customers', USER, SYSDATE, l_transaction);
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Customers', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Meetings_Log
@@ -373,14 +392,16 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+    INSERT INTO Log VALUES (:new.ID, 'Meetings', USER, SYSDATE, l_transaction);
   ELSIF UPDATING THEN
     log_action := 'Update';
+    INSERT INTO Log VALUES (:new.ID, 'Meetings', USER, SYSDATE, l_transaction);
   ELSIF DELETING THEN
     log_action := 'Delete';
+    INSERT INTO Log VALUES (:old.ID, 'Meetings', USER, SYSDATE, l_transaction);
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Meetings', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Sales_Log
@@ -392,14 +413,19 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+      INSERT INTO Log VALUES (:new.ID, 'Sales', USER, SYSDATE, l_transaction);
+
   ELSIF UPDATING THEN
     log_action := 'Update';
+      INSERT INTO Log VALUES (:new.ID, 'Sales', USER, SYSDATE, l_transaction);
+
   ELSIF DELETING THEN
     log_action := 'Delete';
+      INSERT INTO Log VALUES (:old.ID, 'Sales', USER, SYSDATE, l_transaction);
+
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Sales', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Purchases_Log
@@ -411,14 +437,18 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+      INSERT INTO Log VALUES (:new.ID, 'Purchases', USER, SYSDATE, l_transaction);
+
   ELSIF UPDATING THEN
     log_action := 'Update';
+      INSERT INTO Log VALUES (:new.ID, 'Purchases', USER, SYSDATE, l_transaction);
+
   ELSIF DELETING THEN
     log_action := 'Delete';
+      INSERT INTO Log VALUES (:old.ID, 'Purchases', USER, SYSDATE, l_transaction);
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Purchases', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Providers_Log
@@ -430,14 +460,16 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+      INSERT INTO Log VALUES (:new.ID, 'Providers', USER, SYSDATE, l_transaction);
   ELSIF UPDATING THEN
     log_action := 'Update';
+      INSERT INTO Log VALUES (:new.ID, 'Providers', USER, SYSDATE, l_transaction);
   ELSIF DELETING THEN
     log_action := 'Delete';
+      INSERT INTO Log VALUES (:old.ID, 'Providers', USER, SYSDATE, l_transaction);
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Providers', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Products_Log
@@ -449,14 +481,19 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+      INSERT INTO Log VALUES (:new.ID, 'Products', USER, SYSDATE, l_transaction);
+
   ELSIF UPDATING THEN
     log_action := 'Update';
+      INSERT INTO Log VALUES (:new.ID, 'Products', USER, SYSDATE, l_transaction);
+
   ELSIF DELETING THEN
     log_action := 'Delete';
+      INSERT INTO Log VALUES (:old.ID, 'Products', USER, SYSDATE, l_transaction);
+
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Products', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Purchases_products_Log
@@ -468,14 +505,19 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+      INSERT INTO Log VALUES (:new.ID, 'Purchases_products', USER, SYSDATE, l_transaction);
+
   ELSIF UPDATING THEN
     log_action := 'Update';
+      INSERT INTO Log VALUES (:new.ID, 'Purchases_products', USER, SYSDATE, l_transaction);
+
   ELSIF DELETING THEN
     log_action := 'Delete';
+      INSERT INTO Log VALUES (:old.ID, 'Purchases_products', USER, SYSDATE, l_transaction);
+
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Purchases_products', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Products_stocks_Log
@@ -487,14 +529,19 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+      INSERT INTO Log VALUES (:new.ID, 'Products_stocks', USER, SYSDATE, l_transaction);
+
   ELSIF UPDATING THEN
     log_action := 'Update';
+      INSERT INTO Log VALUES (:new.ID, 'Products_stocks', USER, SYSDATE, l_transaction);
+
   ELSIF DELETING THEN
     log_action := 'Delete';
+      INSERT INTO Log VALUES (:old.ID, 'Products_stocks', USER, SYSDATE, l_transaction);
+
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Products_stocks', USER, SYSDATE, l_transaction);
 END;
 
 CREATE OR REPLACE TRIGGER Sales_products_Log
@@ -506,14 +553,19 @@ DECLARE
 BEGIN
   IF INSERTING THEN
     log_action := 'Insert';
+      INSERT INTO Log VALUES (:new.ID, 'Sales_products', USER, SYSDATE, l_transaction);
+
   ELSIF UPDATING THEN
     log_action := 'Update';
+      INSERT INTO Log VALUES (:new.ID, 'Sales_products', USER, SYSDATE, l_transaction);
+
   ELSIF DELETING THEN
     log_action := 'Delete';
+      INSERT INTO Log VALUES (:old.ID, 'Sales_products', USER, SYSDATE, l_transaction);
+
   ELSE
     DBMS_OUTPUT.PUT_LINE('This code is not reachable.');
   END IF;
-  INSERT INTO Log VALUES (:new.ID, 'Sales_products', USER, SYSDATE, l_transaction);
 END;
 
 
