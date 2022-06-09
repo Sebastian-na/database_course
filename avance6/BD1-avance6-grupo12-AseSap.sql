@@ -2,7 +2,7 @@
 -- BD1-avance6-grupo12-AseSap.sql
 -- Objetivo: Practicar la creación de procedimientos almacenados y triggers
 -- Autores:  Breyner Ciro Otero, Juan Vahos Duque, Sebastián Castañeda García, Omar Nicolas Guerrero, Chaparro David Mackenzie
--- Fecha:    6/25/2022
+-- Fecha:    6/8/2022
 -- Ambiente: Ase Sap
 -- -----------------------------------------------------------------------------
 
@@ -204,7 +204,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Manager', USER_NAME(), GETDATE(), @operation)
-END
+END;
 
 CREATE TRIGGER Submanagers_Log
 ON Submanagers
@@ -231,7 +231,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Submanagers', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Branchmanagers_Log
 ON Branchmanagers
@@ -258,7 +258,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Branchmanagers', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Departmentdirectors_Log
 ON Departmentdirectors
@@ -285,7 +285,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Departmentdirectors', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Branches_Log
 ON Branches
@@ -312,7 +312,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Branches', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Departments_Log
 ON Departments
@@ -339,7 +339,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Departments', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Salespeople_Log
 ON Salespeople
@@ -366,7 +366,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Salespeople', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Customers_Log
 ON Customers
@@ -394,7 +394,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Customers', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Meetings_Log
 ON Meetings
@@ -421,7 +421,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Meetings', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Sales_Log
 ON Sales
@@ -448,7 +448,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Sales', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Purchases_Log
 ON Purchases
@@ -475,7 +475,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Purchases', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Providers_Log
 ON Providers
@@ -502,7 +502,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Providers', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Products_Log
 ON Products
@@ -529,7 +529,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Products', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Purchases_products_Log
 ON Purchases_products
@@ -556,7 +556,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Purchases_products', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Products_stocks_Log
 ON Products_stocks
@@ -583,7 +583,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Products_stocks', user_name(), getdate(), @operation)
-END
+END;
 
 CREATE TRIGGER Sales_products_Log
 ON Sales_products
@@ -610,7 +610,7 @@ BEGIN
 	    SET @row_id = (SELECT id from inserted)
 	END
   INSERT INTO Log VALUES (@row_id, 'Sales_products', user_name(), getdate(), @operation)
-END
+END;
 
 /*Create views for each table*/
 CREATE VIEW V_Manager AS SELECT * FROM Manager;
@@ -963,6 +963,7 @@ DROP TABLE Departmentdirectors;
 DROP TABLE Branchmanagers;
 DROP TABLE Submanagers;
 DROP TABLE Manager;
+DROP TABLE Log;
 
 
 /*

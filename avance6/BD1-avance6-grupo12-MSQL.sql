@@ -2,7 +2,7 @@
 -- BD1-avance6-grupo12-MSQL.sql
 -- Objetivo: Practicar la creación de procedimientos almacenados y triggers
 -- Autores:  Breyner Ciro Otero, Juan Vahos Duque, Sebastián Castañeda García, Omar Nicolas Guerrero, Chaparro David Mackenzie
--- Fecha:    6/25/2022
+-- Fecha:    6/8/2022
 -- Ambiente: SQL Server
 -- -----------------------------------------------------------------------------
 
